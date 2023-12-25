@@ -1,52 +1,37 @@
-import React from 'react';
-import './button.css';
+'use client'
+import { styled } from "styled-components";
 
-interface ButtonProps {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary?: boolean;
-  /**
-   * What background color to use
-   */
-  backgroundColor?: string;
-  /**
-   * How large should the button be?
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * Button contents
-   */
-  label: string;
-  /**
-   * Optional click handler
-   */
-  onClick?: () => void;
+interface IButtonProps {
+  backgroundColor?: 'black' | 'green'
+  textColor?: 'white' | 'black'
+  variant: string
+  onClick?: () => void
 }
 
-/**
- * Primary UI component for user interaction
- */
+const Wrapper = styled.button<{ $backgroundColor: string, $textColor: string }>`
+  border-radius: 8px;
+  padding: 16px 32px;
+  font-size: 16px;
+  width: 100%;
+  display:block;
+  color: ${props => props.$textColor};
+  background-color: ${props => props.$backgroundColor};
+`
+
 export const Button = ({
-  primary = false,
-  size = 'medium',
-  backgroundColor,
-  label,
+  textColor = 'white',
+  backgroundColor = 'black',
+  variant,
   ...props
-}: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+}: IButtonProps) => {
   return (
-    <button
+    <Wrapper
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
+      $textColor={textColor}
+      $backgroundColor={backgroundColor}
       {...props}
     >
-      {label}
-      <style jsx>{`
-        button {
-          background-color: ${backgroundColor};
-        }
-      `}</style>
-    </button>
+      {variant}
+    </Wrapper>
   );
 };
